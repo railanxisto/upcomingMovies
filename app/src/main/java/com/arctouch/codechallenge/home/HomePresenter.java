@@ -23,7 +23,6 @@ public class HomePresenter implements HomeContract.Presenter {
         this.repository = repository;
     }
 
-
     @Override
     public void loadMovies() {
         viewListener.showProgress(true);
@@ -31,6 +30,7 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void getMoviesSuccess(List<Movie> movies) {
                 viewListener.showMovies(movies);
+                viewListener.showProgress(false);
             }
 
             @Override

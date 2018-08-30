@@ -32,7 +32,7 @@ public interface TmdbApi {
 
     @GET("movie/{id}")
     Observable<Movie> movie(
-            @Path("id") Long id,
+            @Path("movie_id") Long id,
             @Query("api_key") String apiKey,
             @Query("language") String language
     );
