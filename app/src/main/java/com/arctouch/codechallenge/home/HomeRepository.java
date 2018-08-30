@@ -2,6 +2,7 @@ package com.arctouch.codechallenge.home;
 
 import android.content.Context;
 
+import com.arctouch.codechallenge.api.MyApp;
 import com.arctouch.codechallenge.api.TmdbApi;
 import com.arctouch.codechallenge.data.Cache;
 import com.arctouch.codechallenge.model.Genre;
@@ -21,15 +22,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
  */
 
 public class HomeRepository {
-    private TmdbApi api = new Retrofit.Builder()
-            .baseUrl(TmdbApi.URL)
-            .client(new OkHttpClient.Builder().build())
-            .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(TmdbApi.class);
-
-
     private static final HomeRepository instance = new HomeRepository();
 
     private static Context context;
@@ -44,7 +36,7 @@ public class HomeRepository {
     }
 
     public void loadMovies(final GetMoviesListener listener) {
-        api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
+        MyApp.api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
