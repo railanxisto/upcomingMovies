@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arctouch.codechallenge.R;
@@ -20,9 +21,11 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private List<Movie> movies;
+    private OnItemClick listener;
 
-    public HomeAdapter(List<Movie> movies) {
+    public HomeAdapter(List<Movie> movies, OnItemClick listener) {
         this.movies = movies;
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,6 +36,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         private final TextView genresTextView;
         private final TextView releaseDateTextView;
         private final ImageView posterImageView;
+        private final RelativeLayout movieLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -40,14 +44,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             genresTextView = itemView.findViewById(R.id.genresTextView);
             releaseDateTextView = itemView.findViewById(R.id.releaseDateTextView);
             posterImageView = itemView.findViewById(R.id.posterImageView);
+            movieLayout = itemView.findViewById(R.id.movieLayout);
         }
 
         public void bind(Movie movie) {
-            titleTextView.setText(movie.title);
-            genresTextView.setText(TextUtils.join(", ", movie.genres));
+            titleTextView.setText(movie.getTitle());
+            genresTextView.setText(TextUtils.join(", ", movie.getGenres()));
             releaseDateTextView.setText(movie.releaseDate);
 
-            String posterPath = movie.posterPath;
+            String posterPath = movie.getPosterPath();
             if (TextUtils.isEmpty(posterPath) == false) {
                 Glide.with(itemView)
                         .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
@@ -72,5 +77,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(movies.get(position));
+        holder.movieLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onMovieClick(movies.get(position));
+            }
+        });
+    }
+
+    public interface OnItemClick {
+        void onMovieClick(Movie movie);
     }
 }
