@@ -25,12 +25,27 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadMovies() {
-        viewListener.showProgress(true);
         repository.loadMovies(new HomeRepository.GetMoviesListener() {
             @Override
             public void getMoviesSuccess(List<Movie> movies) {
                 viewListener.showMovies(movies);
                 viewListener.showProgress(false);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void loadGenres() {
+        viewListener.showProgress(true);
+        repository.loadGenres(new HomeRepository.GetGenresListener() {
+            @Override
+            public void getGenresSuccess() {
+                viewListener.genrerIsLoaded();
             }
 
             @Override

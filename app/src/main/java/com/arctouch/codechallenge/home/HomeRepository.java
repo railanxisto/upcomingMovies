@@ -51,8 +51,22 @@ public class HomeRepository {
                 });
     }
 
+    public void loadGenres(final GetGenresListener listener) {
+        MyApp.api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    Cache.setGenres(response.genres);
+                    listener.getGenresSuccess();
+                });
+    }
+
     public interface GetMoviesListener extends OnErrorListener {
         void getMoviesSuccess(List<Movie> movies);
+    }
+
+    public interface GetGenresListener extends OnErrorListener {
+        void getGenresSuccess();
     }
 
     private void handleThrowable(Throwable t, OnErrorListener listener) {

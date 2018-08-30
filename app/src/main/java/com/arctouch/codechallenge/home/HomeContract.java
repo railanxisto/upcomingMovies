@@ -12,10 +12,14 @@ public interface HomeContract {
     interface View {
         void showMovies (List<Movie> movies);
 
+        void genrerIsLoaded();
+
         void showProgress (boolean isToShow);
     }
 
     interface Presenter {
         void loadMovies();
+
+        void loadGenres();
     }
 }

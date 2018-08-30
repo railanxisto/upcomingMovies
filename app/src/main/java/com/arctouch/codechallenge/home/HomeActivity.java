@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
         this.progressBar = findViewById(R.id.progressBar);
         presenter = new HomePresenter(this, HomeRepository.getInstance(this.getApplicationContext()));
 
-        presenter.loadMovies();
+        presenter.loadGenres();
 
     }
 
@@ -54,5 +54,10 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
     @Override
     public void showMovies(List<Movie> movies) {
         recyclerView.setAdapter(new HomeAdapter(movies, this));
+    }
+
+    @Override
+    public void genrerIsLoaded() {
+        presenter.loadMovies();
     }
 }
