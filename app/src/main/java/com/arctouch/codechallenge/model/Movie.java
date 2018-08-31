@@ -1,22 +1,109 @@
 package com.arctouch.codechallenge.model;
 
-import com.squareup.moshi.Json;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
-    public int id;
-    public String title;
-    public String overview;
-    public List<Genre> genres;
-    @Json(name = "genre_ids")
-    public List<Integer> genreIds;
-    @Json(name = "poster_path")
-    public String posterPath;
-    @Json(name = "backdrop_path")
-    public String backdropPath;
-    @Json(name = "release_date")
+public class Movie implements Serializable {
+
+    @SerializedName("id")
+    @Expose
+    private int id;
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("overview")
+    @Expose
+    private String overview;
+
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres = new ArrayList<>();
+
+    @SerializedName("genre_ids")
+    @Expose
+    private List<Integer> genreIds;
+
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
+
+    @SerializedName("release_date")
+    @Expose
     public String releaseDate;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public List<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
     @Override
     public boolean equals(Object o) {

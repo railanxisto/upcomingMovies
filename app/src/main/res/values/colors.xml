@@ -3,4 +3,8 @@
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#1B1B1B</color>
     <color name="colorAccent">@color/colorPrimary</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_gray">#DDDDDD</color>
+    <color name="hint_color">#420000</color>
+    <color name="gray">#CC8F8E94</color>
 </resources>

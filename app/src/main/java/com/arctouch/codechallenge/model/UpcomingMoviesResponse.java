@@ -1,6 +1,7 @@
 package com.arctouch.codechallenge.model;
 
-import com.squareup.moshi.Json;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -8,9 +9,13 @@ public class UpcomingMoviesResponse {
 
     public int page;
     public List<Movie> results;
-    @Json(name = "total_pages")
+
+    @SerializedName("total_pages")
+    @Expose
     public int totalPages;
-    @Json(name = "total_results")
+
+    @SerializedName("total_results")
+    @Expose
     public int totalResults;
 
     @Override
