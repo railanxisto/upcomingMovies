@@ -25,6 +25,7 @@ public class HomeRepository {
     private static final HomeRepository instance = new HomeRepository();
 
     private static Context context;
+    private static int totalPagesCache = 0;
 
     public static HomeRepository getInstance(Context applicationContext) {
         HomeRepository.context = applicationContext.getApplicationContext();
@@ -35,8 +36,12 @@ public class HomeRepository {
         //ignore
     }
 
-    public void loadMovies(final GetMoviesListener listener) {
-        MyApp.api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
+    public int getTotalPages() {
+        return totalPagesCache;
+    }
+
+    public void loadMovies(int currentPage, final GetMoviesListener listener) {
+        MyApp.api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, currentPage, TmdbApi.DEFAULT_REGION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
@@ -47,6 +52,7 @@ public class HomeRepository {
                             }
                         }
                     }
+                    totalPagesCache = response.totalPages;
                     listener.getMoviesSuccess(response.results);
                 });
     }

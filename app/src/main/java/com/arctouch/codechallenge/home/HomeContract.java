@@ -18,8 +18,10 @@ public interface HomeContract {
     }
 
     interface Presenter {
-        void loadMovies();
+        void loadMovies(int currentPage);
 
         void loadGenres();
+
+        int getTotalPages();
     }
 }

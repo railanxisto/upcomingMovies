@@ -46,7 +46,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.setMovie(movie);
 
         String posterPath = movie.getPosterPath();
-        if (TextUtils.isEmpty(posterPath) == false) {
+        if (!TextUtils.isEmpty(posterPath)) {
             Glide.with(binding.getRoot())
                     .load(movieImageUrlBuilder.buildPosterUrl(posterPath))
                     .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
@@ -58,10 +58,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.genresTextView.setText(TextUtils.join(", ", movie.getGenres()));
 
         String backdropPath = movie.getBackdropPath();
-        if (TextUtils.isEmpty(backdropPath) == false) {
+        if (!TextUtils.isEmpty(backdropPath)) {
             Glide.with(binding.getRoot())
                     .load(movieImageUrlBuilder.buildBackdropUrl(backdropPath))
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder).dontAnimate())
                     .into(binding.backdropImageView);
         }
     }

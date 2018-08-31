@@ -24,8 +24,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void loadMovies() {
-        repository.loadMovies(new HomeRepository.GetMoviesListener() {
+    public void loadMovies(int currentPage) {
+        repository.loadMovies(currentPage, new HomeRepository.GetMoviesListener() {
             @Override
             public void getMoviesSuccess(List<Movie> movies) {
                 viewListener.showMovies(movies);
@@ -37,6 +37,11 @@ public class HomePresenter implements HomeContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public int getTotalPages() {
+        return repository.getTotalPages();
     }
 
     @Override
