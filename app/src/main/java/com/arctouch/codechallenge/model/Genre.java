@@ -2,7 +2,7 @@ package com.arctouch.codechallenge.model;
 
 import java.io.Serializable;
 
-public class Genre implements Serializable{
+public class Genre implements Serializable {
 
     public int id;
     public String name;

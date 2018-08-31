@@ -1,26 +1,44 @@
 package com.arctouch.codechallenge.model;
 
-import android.os.Parcel;
-
-import com.squareup.moshi.Json;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Movie implements Serializable {
+
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("title")
+    @Expose
     private String title;
+
+    @SerializedName("overview")
+    @Expose
     private String overview;
+
+    @SerializedName("genres")
+    @Expose
     private List<Genre> genres = new ArrayList<>();
 
-    @Json(name = "genre_ids")
+    @SerializedName("genre_ids")
+    @Expose
     private List<Integer> genreIds;
-    @Json(name = "poster_path")
+
+    @SerializedName("poster_path")
+    @Expose
     private String posterPath;
-    @Json(name = "backdrop_path")
+
+    @SerializedName("backdrop_path")
+    @Expose
     private String backdropPath;
-    @Json(name = "release_date")
+
+    @SerializedName("release_date")
+    @Expose
     public String releaseDate;
 
     public int getId() {

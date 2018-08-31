@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface HomeContract {
     interface View {
-        void showMovies (List<Movie> movies);
+        void showMovies(List<Movie> movies);
 
         void genrerIsLoaded();
 
-        void showProgress (boolean isToShow);
+        void showProgress(boolean isToShow);
     }
 
     interface Presenter {

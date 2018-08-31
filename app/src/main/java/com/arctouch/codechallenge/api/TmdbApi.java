@@ -11,29 +11,12 @@ import retrofit2.http.Query;
 
 public interface TmdbApi {
 
-    String URL = "https://api.themoviedb.org/3/";
-    String API_KEY = "1f54bd990f1cdfb230adb312546d765d";
-    String DEFAULT_LANGUAGE = "pt-BR";
-    String DEFAULT_REGION = "BR";
-
     @GET("genre/movie/list")
-    Observable<GenreResponse> genres(
-            @Query("api_key") String apiKey,
-            @Query("language") String language
-    );
+    Observable<GenreResponse> genres();
 
     @GET("movie/upcoming")
-    Observable<UpcomingMoviesResponse> upcomingMovies(
-            @Query("api_key") String apiKey,
-            @Query("language") String language,
-            @Query("page") int page,
-            @Query("region") String region
-    );
+    Observable<UpcomingMoviesResponse> upcomingMovies(@Query("page") int page);
 
     @GET("movie/{id}")
-    Observable<Movie> movie(
-            @Path("movie_id") Long id,
-            @Query("api_key") String apiKey,
-            @Query("language") String language
-    );
+    Observable<Movie> movie(@Path("movie_id") Long id);
 }
