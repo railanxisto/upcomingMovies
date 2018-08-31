@@ -1,5 +1,7 @@
 package com.arctouch.codechallenge.home;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -19,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnItemClick, HomeContract.View {
+public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnItemClick, HomeContract.View, SearchView.OnQueryTextListener {
     public static final String PARAM_MOVIE = "movie";
 
     private boolean isLoading = false;
@@ -31,6 +36,8 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
     private ProgressBar progressBar;
     private HomePresenter presenter;
     private HomeAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean isFiltering = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,17 +53,19 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
     }
 
     private void setUpScrollView() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new InfiniteScrollListener(linearLayoutManager) {
             @Override
             protected void loadNextPage() {
-                isLoading = true;
-                currentPage++;
-                if (currentPage <= totalPages) {
-                    presenter.loadMovies(currentPage);
+                if (!isFiltering) {
+                    isLoading = true;
+                    currentPage++;
+                    if (currentPage <= totalPages) {
+                        presenter.loadMovies(currentPage);
+                    }
                 }
             }
 
@@ -71,7 +80,6 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
             }
         });
     }
-
 
     @Override
     public void onMovieClick(Movie clickedMovie) {
@@ -101,5 +109,39 @@ public class HomeActivity extends AppCompatActivity implements HomeAdapter.OnIte
     public void genrerIsLoaded() {
         setUpScrollView();
         presenter.loadMovies(currentPage);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        adapter.getFilter().filter(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.length() == 0) {
+            isFiltering = false;
+        } else {
+            isFiltering = true;
+        }
+        adapter.getFilter().filter(newText);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search)
+                .getActionView();
+
+        if (searchManager != null) {
+            searchView.setSearchableInfo(searchManager
+                    .getSearchableInfo(getComponentName()));
+            searchView.setMaxWidth(Integer.MAX_VALUE);
+        }
+        searchView.setOnQueryTextListener(this);
+        return true;
     }
 }
